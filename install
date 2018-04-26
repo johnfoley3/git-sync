@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#
+# installs git-sync as a system executable to `/usr/local/bin`
+# or some other given argument
+
+# TODOS
+# Should ask or use --force to remove previous bin
+# Should not try to run `ln` until it's absolutely sure
+# Provide a -v for logging info
+# Create Brew package config for this script
+
+DEFAULT_GIT_SYNC_BIN_DIR="/usr/local/bin"
+
+GIT_SYNC_LINK="$DEFAULT_GIT_SYNC_BIN_DIR/git-sync"
+
+if [ -L $GIT_SYNC_LINK ]; then
+    echo "Found $GIT_SYNC_LINK; Removing.."
+    rm $GIT_SYNC_LINK
+
+    if [ ! -L $GIT_SYNC_LINK ]; then
+        echo "Successfully removed"
+    else
+        echo "Could not remove $GIT_SYNC_LINK"
+    fi
+fi
+
+ln -s "$(pwd)/git-sync" $GIT_SYNC_LINK
